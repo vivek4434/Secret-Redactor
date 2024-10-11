@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<LangVersion>latest</LangVersion>
+    <RootNamespace>Secret.Redactor.Hash.Generator</RootNamespace>
+    <AssemblyName>HashGenerator</AssemblyName>
+	<TargetFrameworks>net8.0</TargetFrameworks>
+  </PropertyGroup>
+  
+</Project>
