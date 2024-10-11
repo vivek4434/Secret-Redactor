@@ -1,2 +1,2 @@
 # Secret-Redactor
-Highly optimized library for secret redaction for sanitizing application diagnostic logs.
+Highly optimized library for sanitizing application diagnostic logs.
