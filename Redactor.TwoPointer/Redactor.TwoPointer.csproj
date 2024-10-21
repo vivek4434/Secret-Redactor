@@ -3,8 +3,12 @@
   <PropertyGroup>
   	<LangVersion>latest</LangVersion>
   	<RootNamespace>Secret.Redactor.TwoPointer</RootNamespace>
-  	<AssemblyName>SecretRedactor</AssemblyName>
+  	<AssemblyName>SecretRedactor.TwoPointer</AssemblyName>
   	<TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Redactor.API\Redactor.API.csproj" />
+  </ItemGroup>
   
 </Project>

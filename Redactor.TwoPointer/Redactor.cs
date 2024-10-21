@@ -1,6 +1,6 @@
 ﻿namespace Secret.Redactor.TwoPointer
 {
-    using Secret.Redactor.Hash.Generator.Interfaces;
+    using Secret.Redactor.API;
     using Secret.Redactor.TwoPointer.Extensions;
     using Secret.Redactor.TwoPointer.Interfaces;
     using System;

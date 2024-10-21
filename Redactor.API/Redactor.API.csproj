@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+  	<LangVersion>latest</LangVersion>
+  	<RootNamespace>Secret.Redactor.API</RootNamespace>
+  	<AssemblyName>SecretRedactor.API</AssemblyName>
+  	<TargetFrameworks>net8.0</TargetFrameworks>
+  </PropertyGroup>
+  
+</Project>
