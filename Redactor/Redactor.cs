@@ -7,15 +7,23 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Redactor class for redacting sensitive information using the two-pointer technique.
+    /// </summary>
     public class Redactor : IRedactor
     {
         private readonly IHasher hasher;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Redactor"/> class.
+        /// </summary>
+        /// <param name="hasher">The hasher used for generating and matching hash values.</param>
         public Redactor(IHasher hasher)
         {
             this.hasher = hasher;
         }
 
+        /// <inheritdoc/>
         public string Redact(string input)
         {
             List<(int, int)> intervals = new List<(int, int)>();
@@ -56,6 +64,11 @@
             return input.MaskString(intervals);
         }
 
+        /// <summary>
+        /// Merges overlapping intervals.
+        /// </summary>
+        /// <param name="intervals">The list of intervals to merge.</param>
+        /// <returns>The merged list of intervals.</returns>
         private List<(int, int)> MergeIntervals(List<(int, int)> intervals)
         {
             if (intervals.Count == 0) return intervals;
