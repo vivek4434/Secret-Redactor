@@ -2,8 +2,8 @@
 
   <PropertyGroup>
   	<LangVersion>latest</LangVersion>
-  	<RootNamespace>Secret.Redactor.Hash.Generator</RootNamespace>
-  	<AssemblyName>HashGenerator</AssemblyName>
+  	<RootNamespace>Secret.Redactor.TwoPointer</RootNamespace>
+  	<AssemblyName>SecretRedactor</AssemblyName>
   	<TargetFrameworks>net8.0</TargetFrameworks>
   </PropertyGroup>
   

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Secret.Redactor.Hash.Generator.Enums
+namespace Secret.Redactor.Hash.Generator.Interfaces
 {
-    public enum HashType
+    public interface IRedactor
     {
-        HashTypeA,
-
-        HashTypeB,
+        string Redact(string input);
     }
 }
