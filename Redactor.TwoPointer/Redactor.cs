@@ -35,23 +35,20 @@
             {
                 if (!this.hasher.IsSecretCharacter(input[j]))
                 {
-                    if (i != j)
-                    {
-                        hash31 = 0;
-                        hash257 = 0;
-                        i = j + 1;
-                    }
                     j++;
+                    i = j;
                     continue;
                 }
 
                 // Update the hash values for the current window
-                (hash31, hash257) = hasher.UpdateHashes(input[j], hash31, hash257);
+                (long tmphash31, long tmphash257) = hasher.UpdateHashes(input[j], hash31, hash257);
 
                 if (hasher.Match(hash31, hash257))
                 {
                     // intervals format[i, j)
                     intervals.Add((i, j + 1));
+                    hash257 = tmphash257;
+                    hash31 = tmphash31;
                     j++;
                 }
                 else
