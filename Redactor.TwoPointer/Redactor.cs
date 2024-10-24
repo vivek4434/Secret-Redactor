@@ -43,7 +43,7 @@
                 // Update the hash values for the current window
                 (long tmphash31, long tmphash257) = hasher.UpdateHashes(input[j], hash31, hash257);
 
-                if (hasher.Match(hash31, hash257))
+                if (hasher.Match(tmphash31, tmphash31))
                 {
                     // intervals format[i, j)
                     intervals.Add((i, j + 1));
