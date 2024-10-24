@@ -26,7 +26,7 @@
         /// <inheritdoc/>
         public string Redact(string input)
         {
-            List<(int, int)> intervals = new List<(int, int)>();
+            List<(int Start, int End)> intervals = new List<(int, int)>();
             int n = input.Length;
             int i = 0, j = 0;
             long hash31 = 0, hash257 = 0;
@@ -50,13 +50,23 @@
 
                 if (hasher.Match(hash31, hash257))
                 {
+                    // intervals format[i, j)
                     intervals.Add((i, j + 1));
-                    i = j + 1;
-                    hash31 = 0;
-                    hash257 = 0;
+                    j++;
+                }
+                else
+                {
+                    // Incrementally update the hash values for the new window [i+1, j]
+                    hash31 = hasher.RemoveHash(input[i], hash31, 31);
+                    hash257 = hasher.RemoveHash(input[i], hash257, 257);
+                    i++;
                 }
 
-                j++;
+                // Ensure i <= j
+                if (i > j)
+                {
+                    j = i;
+                }
             }
 
             intervals = MergeIntervals(intervals);
@@ -69,18 +79,18 @@
         /// </summary>
         /// <param name="intervals">The list of intervals to merge.</param>
         /// <returns>The merged list of intervals.</returns>
-        private List<(int, int)> MergeIntervals(List<(int, int)> intervals)
+        private List<(int, int)> MergeIntervals(List<(int Start, int End)> intervals)
         {
             if (intervals.Count == 0) return intervals;
 
             List<(int, int)> merged = new List<(int, int)>();
-            (int, int) current = intervals[0];
+            (int Start, int End) current = intervals[0];
 
             foreach (var interval in intervals.Skip(1))
             {
-                if (interval.Item1 <= current.Item2)
+                if (interval.Start <= current.End)
                 {
-                    current.Item2 = Math.Max(current.Item2, interval.Item2);
+                    current.End = Math.Max(current.End, interval.End);
                 }
                 else
                 {

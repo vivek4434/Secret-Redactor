@@ -20,10 +20,9 @@
             {
                 if (currIntervalPtr < intervals.Count && index == intervals[currIntervalPtr].Start)
                 {
-                    while (index < input.Length && index <= intervals[currIntervalPtr].End)
-                    {
-                        index++;
-                    }
+                    // interval: [start, end) => advancing to index = end
+                    // as [start, end - 1] will be replaced by $PASS.
+                    index = intervals[currIntervalPtr].End;
 
                     sb.Append(Constants.Mask);
                     currIntervalPtr++;

@@ -47,6 +47,13 @@
         }
 
         /// <inheritdoc/>
+        public long RemoveHash(char c, long hash, int baseValue)
+        {
+            hash = (hash - c) / baseValue;
+            return hash;
+        }
+
+        /// <inheritdoc/>
         public void GenerateHashes(IEnumerable<string> secrets)
         {
             foreach (var secret in secrets)
