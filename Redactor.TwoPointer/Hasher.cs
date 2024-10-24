@@ -21,7 +21,7 @@
         /// Initializes a new instance of the <see cref="Hasher"/> class.
         /// </summary>
         /// <param name="maxPowerPreComputationLength">The maximum length for precomputing powers.</param>
-        public Hasher(uint maxPowerPreComputationLength = 100)
+        public Hasher(uint maxPowerPreComputationLength = 40)
         {
             this.maxPowerPreComputationLength= maxPowerPreComputationLength;
             this.hashes31 = new HashSet<long>();
