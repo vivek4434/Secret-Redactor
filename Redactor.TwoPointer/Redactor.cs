@@ -35,6 +35,8 @@
             {
                 if (!this.hasher.IsSecretCharacter(input[j]))
                 {
+                    hash31 = 0;
+                    hash257 = 0;
                     j++;
                     i = j;
                     continue;

@@ -16,6 +16,7 @@
         private readonly ConcurrentDictionary<int, long> powers31;
         private readonly ConcurrentDictionary<int, long> powers257;
         private readonly ConcurrentDictionary<char, bool> secretCharacters;
+        private readonly IReadOnlyDictionary<long, long> invMod;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Hasher"/> class.
@@ -29,6 +30,12 @@
             this.powers31 = new ConcurrentDictionary<int, long>();
             this.powers257 = new ConcurrentDictionary<int, long>();
             this.secretCharacters = new ConcurrentDictionary<char, bool>();
+            invMod = new Dictionary<long, long>()
+            {
+                [31] = this.CalculateModularInverse(31, Constants.Mod),
+                [257] = this.CalculateModularInverse(257, Constants.Mod)
+            };
+
             PrecomputeInitialPowers();
         }
 
@@ -47,10 +54,17 @@
         }
 
         /// <inheritdoc/>
-        public long RemoveHash(char c, long hash, int baseValue)
+        public long RemoveHash(char character, long currentHashValue, int baseValue)
         {
-            hash = (hash - c) / baseValue;
-            return hash;
+            // ((currentHash - character + mod)*base^-1)%mod;
+
+            // Adjust the hash value by subtracting the character's value and adding the modulus to ensure it remains positive
+            currentHashValue = (currentHashValue - character + Constants.Mod) % Constants.Mod;
+
+            // Multiply the result by the modular inverse of the base value to correctly update the hash value
+            currentHashValue = (currentHashValue * invMod[baseValue]) % Constants.Mod;
+
+            return currentHashValue;
         }
 
         /// <inheritdoc/>
@@ -132,6 +146,41 @@
                 powers31[i] = (powers31[i - 1] * 31) % Constants.Mod;
                 powers257[i] = (powers257[i - 1] * 257) % Constants.Mod;
             }
+        }
+
+        /// <summary>
+        /// Computes the modular inverse of a number using the extended Euclidean algorithm.
+        /// </summary>
+        /// <param name="number">The number to find the inverse of.</param>
+        /// <param name="modulus">The modulus.</param>
+        /// <returns>The modular inverse of the number.</returns>
+        private long CalculateModularInverse(long number, long modulus)
+        {
+            long originalModulus = modulus, temporaryValue, quotient;
+            long x0 = 0, x1 = 1;
+            if (modulus == 1)
+                return 0;
+
+            // Apply the extended Euclidean algorithm
+            while (number > 1)
+            {
+                quotient = number / modulus;
+
+                temporaryValue = modulus;
+                modulus = number % modulus;
+                number = temporaryValue;
+
+                temporaryValue = x0;
+
+                x0 = x1 - quotient * x0;
+
+                x1 = temporaryValue;
+            }
+
+            if (x1 < 0)
+                x1 += originalModulus;
+
+            return x1;
         }
     }
 }

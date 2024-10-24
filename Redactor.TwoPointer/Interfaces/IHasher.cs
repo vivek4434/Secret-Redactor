@@ -16,11 +16,11 @@
         /// <summary>
         /// Removes the contribution of a character from the hash value.
         /// </summary>
-        /// <param name="c">The character to be removed from the hash.</param>
-        /// <param name="hash">The current hash value.</param>
+        /// <param name="character">The character to be removed from the hash.</param>
+        /// <param name="currentHashValue">The current hash value.</param>
         /// <param name="baseValue">The base value used in the hash calculation (e.g., 31 or 257).</param>
         /// <returns>The updated hash value after removing the character's contribution.</returns>
-        long RemoveHash(char c, long hash, int baseValue);
+        long RemoveHash(char character, long currentHashValue, int baseValue);
 
         /// <summary>
         /// Checks if the given hash values match any of the precomputed hashes.
