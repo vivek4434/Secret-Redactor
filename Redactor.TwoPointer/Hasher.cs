@@ -77,13 +77,16 @@
 
                 for (int i = 0; i < secret.Length; i++)
                 {
-                    char c = secret[i];
-                    hash31 = (hash31 + c * GetPower31(secret.Length - 1 - i)) % Constants.Mod;
-                    hash257 = (hash257 + c * GetPower257(secret.Length - 1 - i)) % Constants.Mod;
+                    this.secretCharacters.TryAdd(secret[i], true);
+                    for (int j = i; j < secret.Length; j++)
+                    {
+                        char c = secret[i];
+                        hash31 = (hash31 + c * GetPower31(secret.Length - 1 - i)) % Constants.Mod;
+                        hash257 = (hash257 + c * GetPower257(secret.Length - 1 - i)) % Constants.Mod;
+                        hashes31.Add(hash31);
+                        hashes257.Add(hash257);
+                    }
                 }
-
-                hashes31.Add(hash31);
-                hashes257.Add(hash257);
             }
         }
 
