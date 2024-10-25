@@ -26,7 +26,6 @@
                     {
                         // as [start, end - 1] will be replaced by $PASS.
                         sb.Append(Constants.Mask);
-                        currIntervalPtr++;
                     }
                     else
                     {
@@ -40,6 +39,7 @@
 
                     // interval: [start, end) => advancing to index = end
                     index = intervals[currIntervalPtr].End;
+					currIntervalPtr++;
                 }
                 else
                 {
