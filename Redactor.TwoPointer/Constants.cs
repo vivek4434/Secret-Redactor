@@ -20,5 +20,15 @@ namespace Secret.Redactor.TwoPointer
         /// Mask to hide secret in input string.
         /// </summary>
         internal const string Mask = "$PASS";
+
+        /// <summary>
+        /// Primary prime to calculate rolling hash.
+        /// </summary>
+        internal const int PrimaryPrime = 31;
+
+        /// <summary>
+        /// Secondary prime to calculate rolling hash.
+        /// </summary>
+        internal const int SecondaryPrime = 257;
     }
 }

@@ -48,8 +48,8 @@
         /// <inheritdoc/>
         public (long, long) UpdateHashes(char c, long hash31, long hash257)
         {
-            hash31 = (hash31 * 31 + c) % Constants.Mod;
-            hash257 = (hash257 * 257 + c) % Constants.Mod;
+            hash31 = (hash31 * Constants.PrimaryPrime + c) % Constants.Mod;
+            hash257 = (hash257 * Constants.SecondaryPrime + c) % Constants.Mod;
             return (hash31, hash257);
         }
 
@@ -72,17 +72,17 @@
         {
             foreach (var secret in secrets)
             {
-                long hash31 = 0;
-                long hash257 = 0;
-
                 for (int i = 0; i < secret.Length; i++)
                 {
+                    long hash31 = 0;
+                    long hash257 = 0;
+
                     this.secretCharacters.TryAdd(secret[i], true);
                     for (int j = i; j < secret.Length; j++)
                     {
-                        char c = secret[i];
-                        hash31 = (hash31 + c * GetPower31(secret.Length - 1 - i)) % Constants.Mod;
-                        hash257 = (hash257 + c * GetPower257(secret.Length - 1 - i)) % Constants.Mod;
+                        char c = secret[j];
+                        hash31 = (hash31 * Constants.PrimaryPrime + c) % Constants.Mod;
+                        hash257 = (hash257 * Constants.SecondaryPrime + c) % Constants.Mod;
                         hashes31.Add(hash31);
                         hashes257.Add(hash257);
                     }
@@ -112,13 +112,14 @@
         /// <returns>The power of 31.</returns>
         private long GetPower31(int exponent)
         {
-            if (!powers31.ContainsKey(exponent))
+            if (powers31.ContainsKey(exponent))
             {
-                long previousPower = GetPower31(exponent - 1);
-                long newPower = (previousPower * 31) % Constants.Mod;
-                powers31[exponent] = newPower;
+                return powers31[exponent];
             }
-            return powers31[exponent];
+
+            long previousPower = GetPower31(exponent - 1);
+            long newPower = (previousPower * Constants.PrimaryPrime) % Constants.Mod;
+            return powers31[exponent] = newPower;
         }
 
         /// <summary>
@@ -128,13 +129,14 @@
         /// <returns>The power of 257.</returns>
         private long GetPower257(int exponent)
         {
-            if (!powers257.ContainsKey(exponent))
+            if (powers257.ContainsKey(exponent))
             {
-                long previousPower = GetPower257(exponent - 1);
-                long newPower = (previousPower * 257) % Constants.Mod;
-                powers257[exponent] = newPower;
+                return powers257[exponent];
             }
-            return powers257[exponent];
+
+            long previousPower = GetPower257(exponent - 1);
+            long newPower = (previousPower * Constants.SecondaryPrime) % Constants.Mod;
+            return powers257[exponent] = newPower;
         }
 
         /// <summary>
@@ -146,8 +148,8 @@
             powers257[0] = 1;
             for (int i = 1; i <= this.maxPowerPreComputationLength; i++)
             {
-                powers31[i] = (powers31[i - 1] * 31) % Constants.Mod;
-                powers257[i] = (powers257[i - 1] * 257) % Constants.Mod;
+                powers31[i] = (powers31[i - 1] * Constants.PrimaryPrime) % Constants.Mod;
+                powers257[i] = (powers257[i - 1] * Constants.SecondaryPrime) % Constants.Mod;
             }
         }
 
