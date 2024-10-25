@@ -1,4 +1,8 @@
-﻿namespace Secret.Redactor.TwoPointer.UnitTest
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+[assembly: Parallelize(Workers = 4, Scope = ExecutionScope.MethodLevel)]
+
+namespace Secret.Redactor.TwoPointer.UnitTest
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Secret.Redactor.Hash.Generator;

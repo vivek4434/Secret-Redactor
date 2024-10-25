@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Secret.Redactor.TwoPointer.Extensions;
-    using System;
     using System.Collections.Generic;
 
     [TestClass]

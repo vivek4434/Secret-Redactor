@@ -32,8 +32,8 @@
             this.secretCharacters = new ConcurrentDictionary<char, bool>();
             invMod = new Dictionary<long, long>()
             {
-                [31] = this.CalculateModularInverse(31, Constants.Mod),
-                [257] = this.CalculateModularInverse(257, Constants.Mod)
+                [Constants.PrimaryPrime] = this.CalculateModularInverse(Constants.PrimaryPrime, Constants.Mod),
+                [Constants.SecondaryPrime] = this.CalculateModularInverse(Constants.SecondaryPrime, Constants.Mod)
             };
 
             PrecomputeInitialPowers();
