@@ -40,7 +40,6 @@
 
                     // interval: [start, end) => advancing to index = end
                     index = intervals[currIntervalPtr].End;
-
                 }
                 else
                 {

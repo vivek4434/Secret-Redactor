@@ -87,7 +87,7 @@
 
             foreach (var interval in intervals.Skip(1))
             {
-                if (interval.Start <= current.End)
+                if (interval.Start < current.End)
                 {
                     current.End = Math.Max(current.End, interval.End);
                 }
