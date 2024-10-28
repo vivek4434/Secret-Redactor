@@ -19,8 +19,9 @@
         /// <param name="character">The character to be removed from the hash.</param>
         /// <param name="currentHashValue">The current hash value.</param>
         /// <param name="baseValue">The base value used in the hash calculation (e.g., 31 or 257).</param>
+        /// <param name="exponent">Power of character that needs to be removed.</param>
         /// <returns>The updated hash value after removing the character's contribution.</returns>
-        long RemoveHash(char character, long currentHashValue, int baseValue);
+        long RemoveHash(char character, long currentHashValue, int baseValue, int exponent);
 
         /// <summary>
         /// Checks if the given hash values match any of the precomputed hashes.

@@ -60,9 +60,10 @@
                 }
                 else
                 {
+                    // In string [i, j), s[i] has factor of prime^(j - i - 1);
                     // Incrementally update the hash values for the new window [i+1, j]
-                    hash31 = hasher.RemoveHash(input[i], hash31, Constants.PrimaryPrime);
-                    hash257 = hasher.RemoveHash(input[i], hash257, Constants.SecondaryPrime);
+                    hash31 = hasher.RemoveHash(input[i], hash31, Constants.PrimaryPrime, j - i - 1);
+                    hash257 = hasher.RemoveHash(input[i], hash257, Constants.SecondaryPrime, j - i - 1);
                     i++;
                 }
 

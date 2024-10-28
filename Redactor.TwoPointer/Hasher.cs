@@ -55,17 +55,10 @@
         }
 
         /// <inheritdoc/>
-        public long RemoveHash(char character, long currentHashValue, int baseValue)
+        public long RemoveHash(char character, long currentHashValue, int baseValue, int exponent)
         {
-            // ((currentHash - character + mod)*base^-1)%mod;
-
-            // Adjust the hash value by subtracting the character's value and adding the modulus to ensure it remains positive
-            currentHashValue = (currentHashValue - character + Constants.Mod) % Constants.Mod;
-
-            // Multiply the result by the modular inverse of the base value to correctly update the hash value
-            currentHashValue = (currentHashValue * invMod[baseValue]) % Constants.Mod;
-
-            return currentHashValue;
+            // ((currentHash - character*baseValue^exponent + mod)*base^-1)%mod;
+            return (currentHashValue - this.Multiply(character, GetPower(baseValue, exponent))  + Constants.Mod) % Constants.Mod;
         }
 
         /// <inheritdoc/>
@@ -106,6 +99,16 @@
         public bool IsSecretCharacter(char c)
         {
             return this.secretCharacters.ContainsKey(c);
+        }
+
+        private long GetPower(long baseNum, int expo)
+        {
+            if (baseNum == 31)
+            {
+                return this.GetPower31(expo);
+            }
+
+            return this.GetPower257(expo);
         }
 
         /// <summary>
@@ -154,6 +157,21 @@
                 powers31[i] = (powers31[i - 1] * Constants.PrimaryPrime) % Constants.Mod;
                 powers257[i] = (powers257[i - 1] * Constants.SecondaryPrime) % Constants.Mod;
             }
+        }
+
+        private long Multiply(long a, long b) 
+        {
+            if (a > Constants.Mod)
+            {
+                a %= Constants.Mod;
+            }
+
+            if (b > Constants.Mod)
+            {
+                b %= Constants.Mod;
+            }
+
+            return (a * b) % Constants.Mod;
         }
 
         /// <summary>
