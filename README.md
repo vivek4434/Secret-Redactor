@@ -8,5 +8,5 @@ Now its time to perform masking on actual input string, for that, string is scan
 
 ## Substring hash calculation:
 For an instance, input_text = "Hello World" and request is to calculate hash of ello. Based on implemented rolling hash implemention, hash (with prime=31) for "Hello" string will be:
-hello_hash_prime = 'H'*`prime^4 + 'e'*prime^3 + 'l'*prime^2 + 'l'*prime^1 + 'o'*prime^0.
+*hello_hash_prime = 'H'*`prime^4 + 'e'*prime^3 + 'l'*prime^2 + 'l'*prime^1 + 'o'*prime^0*
 ello_hash_prime = hello_hash_31 - 'H'*prime^4
