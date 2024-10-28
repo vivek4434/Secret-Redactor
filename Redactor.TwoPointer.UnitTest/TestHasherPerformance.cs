@@ -16,7 +16,7 @@
         private readonly int maxSecretGenCount = 100000;
         private Hasher hasher;
         private ConcurrentBag<string> secrets;
-        private static readonly char[] Characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()".ToCharArray();
+        private static readonly char[] Characters = "~`.,';:-}{?<>+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()".ToCharArray();
 
         [TestInitialize]
         public void Setup()
@@ -27,7 +27,7 @@
 
             for (int i = 0; i < maxSecretGenCount; i++)
             {
-                secrets.Add(this.GeneratePassword(random.Next(10, 21)));
+                secrets.Add(this.GeneratePassword(random.Next(10, 30)));
             }
         }
 

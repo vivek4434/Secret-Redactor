@@ -2,6 +2,7 @@
 {
     using Secret.Redactor.TwoPointer;
     using Secret.Redactor.TwoPointer.Interfaces;
+    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
@@ -88,6 +89,8 @@
                     }
                 }
             }
+
+            Console.WriteLine($"Secret hash size: [{hashes31.Count}]");
         }
 
         /// <inheritdoc/>

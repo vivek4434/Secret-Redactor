@@ -26,6 +26,11 @@
         /// <inheritdoc/>
         public string Redact(string input)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return input;
+            }
+
             List<(int Start, int End)> intervals = new List<(int, int)>();
             int n = input.Length;
             int i = 0, j = 0;
@@ -45,7 +50,7 @@
                 // Update the hash values for the current window
                 (long tmphash31, long tmphash257) = hasher.UpdateHashes(input[j], hash31, hash257);
 
-                if (hasher.Match(tmphash31, tmphash31))
+                if (hasher.Match(tmphash31, tmphash257))
                 {
                     // intervals format[i, j)
                     intervals.Add((i, j + 1));
@@ -56,8 +61,8 @@
                 else
                 {
                     // Incrementally update the hash values for the new window [i+1, j]
-                    hash31 = hasher.RemoveHash(input[i], hash31, 31);
-                    hash257 = hasher.RemoveHash(input[i], hash257, 257);
+                    hash31 = hasher.RemoveHash(input[i], hash31, Constants.PrimaryPrime);
+                    hash257 = hasher.RemoveHash(input[i], hash257, Constants.SecondaryPrime);
                     i++;
                 }
 
