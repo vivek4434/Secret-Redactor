@@ -1,4 +1,4 @@
-# Secret-Redactor
+## Secret-Redactor
 Highly optimized library for sanitizing application logs with known set of secret.
 
 Proposed algorithm make use of two-pointer technique to fetch all matching intervals for the given input string. Substring match is performed using polynomial hashing against two primes (namely p1, p2).
