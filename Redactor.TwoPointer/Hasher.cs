@@ -82,8 +82,6 @@
                     }
                 }
             }
-
-            Console.WriteLine($"Secret hash size: [{hashes31.Count}]");
         }
 
         /// <inheritdoc/>
