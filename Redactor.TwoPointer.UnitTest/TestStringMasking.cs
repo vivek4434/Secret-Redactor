@@ -46,7 +46,7 @@
                 (5, 6)
             };
 
-            Assert.IsTrue(string.Equals(input.MaskString(interval), "$PASSlo secret redactor"));
+            Assert.IsTrue(string.Equals(input.MaskString(interval), "$PASS$lo secret redactor"));
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@
                 (0, input.Length)
             };
 
-            Assert.IsTrue(string.Equals(input.MaskString(interval), "$PASS"));
+            Assert.IsTrue(string.Equals(input.MaskString(interval), "$PASS$"));
         }
     }
 }

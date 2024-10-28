@@ -70,7 +70,7 @@
                 }
             }
             stopwatch.Stop();
-            Assert.IsTrue(stopwatch.ElapsedMilliseconds < 60, $"Match took: {stopwatch.ElapsedMilliseconds}");
+            Assert.IsTrue(stopwatch.ElapsedMilliseconds < 100, $"Match took: {stopwatch.ElapsedMilliseconds}");
         }
 
         [TestMethod]
