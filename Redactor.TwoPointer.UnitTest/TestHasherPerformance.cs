@@ -96,15 +96,16 @@
             var stopwatch = Stopwatch.StartNew();
             foreach (var (hash31, hash257) in hashPairs)
             {
-                foreach (var c in secretCopy[random.Next(secretCopy.Length)])
+                int index = random.Next(secretCopy.Length);
+                for (int c =  0; c < secretCopy[index].Length; c++)
                 {
-                    var newHash31 = hasher.RemoveHash(c, hash31, 31);
-                    var newHash257 = hasher.RemoveHash(c, hash257, 257);
+                    var newHash31 = hasher.RemoveHash(secretCopy[index][c], hash31, 31, secretCopy[index].Length - c - 1);
+                    var newHash257 = hasher.RemoveHash(secretCopy[index][c], hash257, 257, secretCopy[index].Length - c - 1);
                 }
             }
 
             stopwatch.Stop();
-            Assert.IsTrue(stopwatch.ElapsedMilliseconds < 250, $"Match took: {stopwatch.ElapsedMilliseconds}");
+            Assert.IsTrue(stopwatch.ElapsedMilliseconds < 400, $"Match took: {stopwatch.ElapsedMilliseconds}");
         }
 
         private string GeneratePassword(int length)

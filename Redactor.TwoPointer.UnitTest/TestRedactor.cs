@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Collections.Generic;
     using Secret.Redactor.Hash.Generator;
+    using System;
 
     [TestClass]
     public class TestRedactor
@@ -62,7 +63,8 @@
             var hasher = new Hasher();
             hasher.GenerateHashes(TEST_LOOKUP_SET);
             string response = new Redactor(hasher).Redact(TEST_COMMAND_3);
-            Assert.IsTrue(response.Contains("This is a sample log. Password: $PASS$\n$PASS$678"));
+            Console.WriteLine(response);
+            Assert.IsTrue(response.Contains("This is a sample log. Password: $PASS$\n$PASS$$PASS$"));
         }
 
         public void TestRedactSuccessAdditionalInputWithEventGuidAndPasswordWithSpecialCharacters()

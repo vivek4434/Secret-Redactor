@@ -45,7 +45,7 @@ namespace Secret.Redactor.TwoPointer.UnitTest
         {
             var hasher = new Hasher();
             var hash31 = hasher.UpdateHashes('a', 0, 0).Item1;
-            var updatedHash31 = hasher.RemoveHash('a', hash31, 31);
+            var updatedHash31 = hasher.RemoveHash('a', hash31, 31, 0);
 
             Assert.AreNotEqual<long>(hash31, updatedHash31);
         }
@@ -124,8 +124,8 @@ namespace Secret.Redactor.TwoPointer.UnitTest
             }
 
             // hashes after remove of b.
-            var updatedHash31 = hasher.RemoveHash('a', initialHash31, 31);
-            var updatedHash257 = hasher.RemoveHash('a', initialHash257, 257);
+            var updatedHash31 = hasher.RemoveHash('a', initialHash31, 31, 5);
+            var updatedHash257 = hasher.RemoveHash('a', initialHash257, 257, 5);
 
             (var targetHash31, var targetHash257) = (0L, 0L);
             foreach (var c in "bcdefg")
