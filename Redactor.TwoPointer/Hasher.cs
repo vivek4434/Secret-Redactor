@@ -2,7 +2,6 @@
 {
     using Secret.Redactor.TwoPointer;
     using Secret.Redactor.TwoPointer.Interfaces;
-    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
