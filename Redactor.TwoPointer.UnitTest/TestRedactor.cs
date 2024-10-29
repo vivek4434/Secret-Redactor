@@ -49,7 +49,7 @@
         }
 
         [TestMethod]
-        public void TestRedactSuccessAdditionalInput()
+        public void TestRedactSuccess_Command_2()
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(TEST_LOOKUP_SET);
@@ -58,7 +58,7 @@
         }
 
         [TestMethod]
-        public void TestRedactSuccessAdditionalInputWithEventGuid()
+        public void TestRedact_Command_3()
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(TEST_LOOKUP_SET);
@@ -67,7 +67,7 @@
             Assert.IsTrue(response.Contains("This is a sample log. Password: $PASS$\n$PASS$$PASS$"));
         }
 
-        public void TestRedactSuccessAdditionalInputWithEventGuidAndPasswordWithSpecialCharacters()
+        public void TestRedact_When_Password_With_SpecialCharacters()
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(TEST_LOOKUP_SET);
@@ -76,7 +76,7 @@
         }
 
         [TestMethod]
-        public void TestRedactFailureNullInput()
+        public void TestRedact_When_Input_IsNull()
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(TEST_LOOKUP_SET);
@@ -85,7 +85,7 @@
         }
 
         [TestMethod]
-        public void TestRedactSuccessWithZeroRedaction()
+        public void TestRedact_When_No_Redaction()
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(new HashSet<string> { TEST_SECRET_4 });
