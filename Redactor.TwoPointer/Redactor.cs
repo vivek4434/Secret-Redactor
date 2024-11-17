@@ -35,7 +35,6 @@
             int n = input.Length;
             int i = 0, j = 0;
             long hash31 = 0, hash257 = 0;
-            int window_length = 0;
 
             while (j < n)
             {
