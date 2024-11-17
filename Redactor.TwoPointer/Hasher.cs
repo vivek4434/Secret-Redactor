@@ -52,8 +52,8 @@
         {
             hash31 = (hash31 * Constants.PrimaryPrime + c) % Constants.Mod;
             hash257 = (hash257 * Constants.SecondaryPrime + c) % Constants.Mod;
-            power31 = this.Multiply(power31, Constants.PrimaryPrime); 
-            power257 = this.Multiply(power257 * Constants.SecondaryPrime);
+            power31 = (power31 * Constants.PrimaryPrime)%Constants.Mod; 
+            power257 = (power257 * Constants.SecondaryPrime)%Constants.Mod;
             return (hash31, hash257);
         }
 

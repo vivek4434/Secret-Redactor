@@ -68,9 +68,11 @@
                 }
 
                 // Ensure i <= j
-                if (i > j)
+                if (i >= j)
                 {
                     j = i;
+                    hash31 = 0;
+                    hash257 = 0;
                     this.hasher.Reset();
                 }
             }
