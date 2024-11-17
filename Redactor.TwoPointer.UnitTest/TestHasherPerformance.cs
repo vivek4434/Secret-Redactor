@@ -99,8 +99,7 @@
                 int index = random.Next(secretCopy.Length);
                 for (int c =  0; c < secretCopy[index].Length; c++)
                 {
-                    var newHash31 = hasher.RemoveHash(secretCopy[index][c], hash31, 31, secretCopy[index].Length - c - 1);
-                    var newHash257 = hasher.RemoveHash(secretCopy[index][c], hash257, 257, secretCopy[index].Length - c - 1);
+                    (long newHash31, long newHash257) = hasher.RemoveHash(secretCopy[index][c], hash31 ,hash257);
                 }
             }
 

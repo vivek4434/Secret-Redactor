@@ -44,10 +44,12 @@ namespace Secret.Redactor.TwoPointer.UnitTest
         public void RemoveHash_ShouldReturnUpdatedHash()
         {
             var hasher = new Hasher();
-            var hash31 = hasher.UpdateHashes('a', 0, 0).Item1;
-            var updatedHash31 = hasher.RemoveHash('a', hash31, 31, 0);
+            (long hash31, long hash257) = hasher.UpdateHashes('a', 0, 0);
+            (long updatedHash31, long updatedHash257) = hasher.RemoveHash('a', hash31, hash257);
 
             Assert.AreNotEqual<long>(hash31, updatedHash31);
+            Assert.AreNotEqual<long>(hash257, updatedHash257);
+
         }
 
         [TestMethod]
@@ -123,9 +125,8 @@ namespace Secret.Redactor.TwoPointer.UnitTest
                 (initialHash31, initialHash257) = hasher.UpdateHashes(c, initialHash31, initialHash257);
             }
 
-            // hashes after remove of b.
-            var updatedHash31 = hasher.RemoveHash('a', initialHash31, 31, 5);
-            var updatedHash257 = hasher.RemoveHash('a', initialHash257, 257, 5);
+            // hashes after remove of a.
+            (long updatedHash31, long updatedHash257) = hasher.RemoveHash('a', initialHash31, initialHash257);
 
             (var targetHash31, var targetHash257) = (0L, 0L);
             foreach (var c in "bcdefg")
