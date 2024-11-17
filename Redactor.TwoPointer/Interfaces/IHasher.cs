@@ -17,11 +17,10 @@
         /// Removes the contribution of a character from the hash value.
         /// </summary>
         /// <param name="character">The character to be removed from the hash.</param>
-        /// <param name="currentHashValue">The current hash value.</param>
-        /// <param name="baseValue">The base value used in the hash calculation (e.g., 31 or 257).</param>
-        /// <param name="exponent">Power of character that needs to be removed.</param>
-        /// <returns>The updated hash value after removing the character's contribution.</returns>
-        long RemoveHash(char character, long currentHashValue, int baseValue, int exponent);
+        /// <param name="hash31">The current hash31 value.</param>
+        /// <param name="hash257">The current hash257 value.</param>
+        /// <returns>The updated hash values after removing the character's contribution.</returns>
+        (long, long) RemoveHash(char character, long hash31, long hash257);
 
         /// <summary>
         /// Checks if the given hash values match any of the precomputed hashes.
@@ -49,5 +48,10 @@
         /// <param name="c">The character to check.</param>
         /// <returns>True if the character is a secret character; otherwise, false.</returns>
         bool IsSecretCharacter(char c);
+
+        /// <summary>
+        /// Called when the string in the sliding window is reset.
+        /// </summary>
+        void Reset();
     }
 }

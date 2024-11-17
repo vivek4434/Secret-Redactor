@@ -35,6 +35,7 @@
             int n = input.Length;
             int i = 0, j = 0;
             long hash31 = 0, hash257 = 0;
+            int window_length = 0;
 
             while (j < n)
             {
@@ -44,6 +45,7 @@
                     hash257 = 0;
                     j++;
                     i = j;
+                    this.hasher.Reset();
                     continue;
                 }
 
@@ -62,8 +64,7 @@
                 {
                     // In string [i, j), s[i] has factor of prime^(j - i - 1);
                     // Incrementally update the hash values for the new window [i+1, j]
-                    hash31 = hasher.RemoveHash(input[i], hash31, Constants.PrimaryPrime, j - i - 1);
-                    hash257 = hasher.RemoveHash(input[i], hash257, Constants.SecondaryPrime, j - i - 1);
+                    (hash31, hash257) = hasher.RemoveHash(input[i], hash31, hash257);
                     i++;
                 }
 
@@ -71,6 +72,7 @@
                 if (i > j)
                 {
                     j = i;
+                    this.hasher.Reset();
                 }
             }
 
