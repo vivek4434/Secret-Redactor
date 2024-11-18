@@ -10,3 +10,19 @@ Now its time to perform masking on actual input string, for that, string is scan
 For an instance, input_text = "Hello World" and request is to calculate hash of ello. Based on implemented rolling hash implemention, hash (with prime=31) for "Hello" string will be:
 - hello_hash_prime = 'H'*`prime^4 + 'e'*prime^3 + 'l'*prime^2 + 'l'*prime^1 + 'o'*prime^0
 -  ello_hash_prime = hello_hash_31 - 'H'*prime^4
+
+1. subtracting first letter:
+```
+h*p4 + e*p3 + l*p2 + l*p1 + o - h*p4 == e*p3 + l*p2 + l*p1 + o
+```
+
+2. multiply by the prime number:
+```
+ (e*p3 + l*p2 + l*p1 + o )* p = e*p4 + l*p3 + l*p2 + o*p1
+```
+
+3. adding the new char multiplied by the prime to the power of the current string:
+```
+e*p4 + l*p3 + l*p2 + o*p1 + w
+```
+

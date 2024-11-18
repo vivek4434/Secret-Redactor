@@ -36,6 +36,9 @@
             int i = 0, j = 0;
             long hash31 = 0, hash257 = 0;
 
+            long power31 = 1; //31
+            long power257 = 1; // 257
+
             while (j < n)
             {
                 if (!this.hasher.IsSecretCharacter(input[j]))
@@ -44,11 +47,13 @@
                     hash257 = 0;
                     j++;
                     i = j;
+                    power31 = 1;
+                    power257 = 1;
                     continue;
                 }
 
                 // Update the hash values for the current window
-                (long tmphash31, long tmphash257) = hasher.UpdateHashes(input[j], hash31, hash257);
+                (long tmphash31, long tmphash257, power31, power257) = hasher.UpdateHashes(input[j], hash31, hash257, power31, power257);
 
                 if (hasher.Match(tmphash31, tmphash257))
                 {
@@ -62,15 +67,18 @@
                 {
                     // In string [i, j), s[i] has factor of prime^(j - i - 1);
                     // Incrementally update the hash values for the new window [i+1, j]
-                    hash31 = hasher.RemoveHash(input[i], hash31, Constants.PrimaryPrime, j - i - 1);
-                    hash257 = hasher.RemoveHash(input[i], hash257, Constants.SecondaryPrime, j - i - 1);
+                    (hash31, hash257, power31, power257) = hasher.RemoveHash(input[i], hash31, hash257, power31, power257);
                     i++;
                 }
 
                 // Ensure i <= j
-                if (i > j)
+                if (i >= j)
                 {
                     j = i;
+                    hash31 = 0;
+                    hash257 = 0;
+                    power257 = 1;
+                    power31 = 1;
                 }
             }
 
