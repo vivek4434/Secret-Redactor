@@ -44,12 +44,17 @@
         public void TestUpdateHashesPerformance()
         {
             var stopwatch = Stopwatch.StartNew();
+
             foreach (var secret in secrets)
             {
                 var(hash31, hash257) = (0L, 0L);
+                long power31 = 1;
+                long power257 = 1;
+
                 foreach (var c in secret)
                 {
-                    (hash31, hash257) = hasher.UpdateHashes(c, hash31, hash257);
+                    (hash31, hash257, power31, power257) = 
+                        hasher.UpdateHashes(c, hash31, hash257, power31, power257);
                 }
             }
             stopwatch.Stop();
@@ -63,9 +68,13 @@
             foreach (var secret in secrets)
             {
                 var (hash31, hash257) = (0L, 0L);
+                long power31 = 1;
+                long power257 = 1;
+
                 foreach (var c in secret)
                 {
-                    (hash31, hash257) = hasher.UpdateHashes(c, hash31, hash257);
+                    (hash31, hash257, power31, power257) = 
+                        hasher.UpdateHashes(c, hash31, hash257, power31, power257);
                     _ = hasher.Match(hash31, hash257);
                 }
             }
@@ -78,28 +87,35 @@
         {
             var random = new Random();
             // Precompute hashes for the secrets
-            var hashPairs = new List<(long, long)>();
+            var hashPairs = new List<(long, long, long, long)>();
             foreach (var secret in secrets)
             {
                 long hash31 = 0;
                 long hash257 = 0;
+                long power31 = 1;
+                long power257 = 1;
+
                 foreach (var c in secret)
                 {
-                    (hash31, hash257) = hasher.UpdateHashes(c, hash31, hash257);
+                    (hash31, hash257, power31, power257) =
+                        hasher.UpdateHashes(c, hash31, hash257, power31, power257);
                 }
-                hashPairs.Add((hash31, hash257));
+
+                hashPairs.Add((hash31, hash257, power31, power257));
             }
 
             var secretCopy = secrets.ToArray();
 
             // Measure RemoveHash performance under stress
             var stopwatch = Stopwatch.StartNew();
-            foreach (var (hash31, hash257) in hashPairs)
+            foreach (var hashPair in hashPairs)
             {
                 int index = random.Next(secretCopy.Length);
+                (long hash31, long hash257, long power31, long power257) = hashPairs[index];
                 for (int c =  0; c < secretCopy[index].Length; c++)
                 {
-                    (long newHash31, long newHash257) = hasher.RemoveHash(secretCopy[index][c], hash31 ,hash257);
+                    (hash31, hash257, power31, power257) = 
+                        hasher.RemoveHash(secretCopy[index][c], hash31 ,hash257, power31, power257);
                 }
             }
 

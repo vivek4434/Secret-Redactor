@@ -24,8 +24,10 @@ namespace Secret.Redactor.TwoPointer.UnitTest
         {
             var hasher = new Hasher();
             hasher.GenerateHashes(new List<string> { "secret" });
-
-            var (hash31, hash257) = hasher.UpdateHashes('s', 0, 0);
+            long power31 = 1;
+            long power257 = 1;
+            (var hash31, var hash257, power31, power257) = 
+                hasher.UpdateHashes('s', 0, 0, power31, power257);
 
             Assert.IsTrue(hasher.Match(hash31, hash257));
         }
@@ -34,7 +36,11 @@ namespace Secret.Redactor.TwoPointer.UnitTest
         public void UpdateHashes_ShouldReturnUpdatedHashes()
         {
             var hasher = new Hasher();
-            var (hash31, hash257) = hasher.UpdateHashes('a', 0, 0);
+            long power31 = 1;
+            long power257 = 1;
+            
+            (var hash31, var hash257, power31, power257) = 
+                hasher.UpdateHashes('a', 0, 0, power31, power257);
 
             Assert.AreNotEqual<long>(0, hash31);
             Assert.AreNotEqual<long>(0, hash257);
@@ -44,21 +50,29 @@ namespace Secret.Redactor.TwoPointer.UnitTest
         public void RemoveHash_ShouldReturnUpdatedHash()
         {
             var hasher = new Hasher();
-            (long hash31, long hash257) = hasher.UpdateHashes('a', 0, 0);
-            (long updatedHash31, long updatedHash257) = hasher.RemoveHash('a', hash31, hash257);
+            long power31 = 1;
+            long power257 = 1;
+
+            (long hash31, long hash257, power31, power257) = 
+                hasher.UpdateHashes('a', 0, 0, power31, power257);
+            (long updatedHash31, long updatedHash257, power31, power257) 
+                = hasher.RemoveHash('a', hash31, hash257, power31, power257);
 
             Assert.AreNotEqual<long>(hash31, updatedHash31);
             Assert.AreNotEqual<long>(hash257, updatedHash257);
-
         }
 
         [TestMethod]
         public void GenerateHashes_ShouldPopulateHashes()
         {
             var hasher = new Hasher();
+            long power31 = 1;
+            long power257 = 1;
+
             hasher.GenerateHashes(new List<string> { "secret" });
 
-            (var hash31, var hash257) = hasher.UpdateHashes('s', 0, 0);
+            (var hash31, var hash257, power31, power257) = 
+                hasher.UpdateHashes('s', 0, 0, power31, power257);
 
             Assert.IsTrue(hasher.Match(hash31, hash257));
         }
@@ -103,10 +117,12 @@ namespace Secret.Redactor.TwoPointer.UnitTest
             var substring = "cret";
             long hash31 = 0;
             long hash257 = 0;
-
+            long power31 = 1;
+            long power257 = 1;
             foreach (var c in substring)
             {
-                (hash31, hash257) = hasher.UpdateHashes(c, hash31, hash257);
+                (hash31, hash257, power31, power257) = 
+                    hasher.UpdateHashes(c, hash31, hash257, power31, power257);
             }
 
             var result = hasher.Match(hash31, hash257);
@@ -119,19 +135,24 @@ namespace Secret.Redactor.TwoPointer.UnitTest
             var hasher = new Hasher();
             var initialHash31 = 0L;
             var initialHash257 = 0L;
+            long power31 = 1;
+            long power257 = 1;
 
             foreach (var c in "abcdefg")
             {
-                (initialHash31, initialHash257) = hasher.UpdateHashes(c, initialHash31, initialHash257);
+                (initialHash31, initialHash257, power31, power257) = 
+                    hasher.UpdateHashes(c, initialHash31, initialHash257, power31, power257);
             }
 
             // hashes after remove of a.
-            (long updatedHash31, long updatedHash257) = hasher.RemoveHash('a', initialHash31, initialHash257);
+            (long updatedHash31, long updatedHash257, power31, power257) = 
+                hasher.RemoveHash('a', initialHash31, initialHash257, power31, power257);
 
             (var targetHash31, var targetHash257) = (0L, 0L);
             foreach (var c in "bcdefg")
             {
-                (targetHash31, targetHash257) = hasher.UpdateHashes(c, initialHash31, initialHash257);
+                (targetHash31, targetHash257, power31, power257) = 
+                    hasher.UpdateHashes(c, initialHash31, initialHash257, power31, power257);
             }
 
             Assert.AreNotEqual<long>(updatedHash31, targetHash31);

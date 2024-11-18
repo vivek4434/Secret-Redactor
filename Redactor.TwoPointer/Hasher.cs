@@ -4,6 +4,7 @@
     using Secret.Redactor.TwoPointer.Interfaces;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Net.Sockets;
 
     /// <summary>
     /// Hasher class for generating and managing hash values for secret redaction.
@@ -15,8 +16,7 @@
         private readonly HashSet<long> hashes257;
         private readonly ConcurrentDictionary<char, bool> secretCharacters;
         private readonly IReadOnlyDictionary<long, long> invMod;
-        private long power31 = 1; //31
-        private long power257 = 1; // 257
+
         
         /// <summary>
         /// Initializes a new instance of the <see cref="Hasher"/> class.
@@ -35,12 +35,6 @@
             };
         }
 
-        public void Reset()
-        {
-            this.power257 = 1;
-            this.power31 = 1;
-        }
-
         /// <inheritdoc/>
         public bool Match(long hash31, long hash257)
         {
@@ -48,25 +42,25 @@
         }
 
         /// <inheritdoc/>
-        public (long, long) UpdateHashes(char c, long hash31, long hash257)
+        public (long, long, long, long) UpdateHashes(char c, long hash31, long hash257, long power31, long power257)
         {
             hash31 = (hash31 * Constants.PrimaryPrime + c) % Constants.Mod;
             hash257 = (hash257 * Constants.SecondaryPrime + c) % Constants.Mod;
             power31 = (power31 * Constants.PrimaryPrime)%Constants.Mod; 
             power257 = (power257 * Constants.SecondaryPrime)%Constants.Mod;
-            return (hash31, hash257);
+            return (hash31, hash257, power31, power257);
         }
 
         /// <inheritdoc/>
-        public (long, long) RemoveHash(char character, long hash31, long hash257)
+        public (long, long, long, long) RemoveHash(char character, long hash31, long hash257, long power31, long power257)
         {
             // ((currentHash - character*baseValue^exponent + mod)*base^-1)%mod;
             hash31 = (hash31 - this.Multiply(character, power31) + Constants.Mod) % Constants.Mod;
             hash257 = (hash257 - this.Multiply(character, power257) + Constants.Mod) % Constants.Mod;
-            power31 /= Constants.PrimaryPrime;
-            power257 /= Constants.SecondaryPrime;
+            power31 = (power31 * invMod[Constants.PrimaryPrime])%Constants.Mod;
+            power257 = (power257 * invMod[Constants.SecondaryPrime])%Constants.Mod;
 
-            return (hash31, hash257);
+            return (hash31, hash257, power31, power257);
         }
 
         /// <inheritdoc/>
